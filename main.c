@@ -116,7 +116,7 @@ int main(int argc, char * argv[]) {
 		//fclose(feed_file_stream);
 	}
 //
-	printf("json : %s \n", json);
+	//printf("json : %s \n", json);
 
 	//json = clean_spaces(json);
 
@@ -126,6 +126,8 @@ int main(int argc, char * argv[]) {
 
 	write_json_class_model(name, json, language_code, models_path, class_headers, 0);
 	free(json);
+
+	printf("done!");
 
 	return 0;
 }

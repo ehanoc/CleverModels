@@ -15,7 +15,7 @@
 
 unsigned int write_json_class_model(char name[], char json[], int language_code, char path[], char* class_headers, int multiple_objects)
 {
-	printf("entering for class : %s \n", name);
+	//printf("entering for class : %s \n", name);
 	int opening_tag = 0;
 	int closing_tag = 0;
 	int opening_square_brackets = 0;
@@ -67,7 +67,7 @@ unsigned int write_json_class_model(char name[], char json[], int language_code,
 			strncpy(attribute_name, json + key_first_quote + 1, length_attr_name);
 			attribute_name[length_attr_name] = '\0';
 
-			printf("Class : %s -> Attribute name : %s, length : %d \n", name, attribute_name, length_attr_name);
+			//printf("Class : %s -> Attribute name : %s, length : %d \n", name, attribute_name, length_attr_name);
 
 			int attr_type = get_attribute_type(json, i);
 			if (0 == already_wrote_attribute(attribute_name, attributes, nr_attributes) && strcmp(":", attribute_name) != 0) {
@@ -95,7 +95,7 @@ unsigned int write_json_class_model(char name[], char json[], int language_code,
 
 
 					free(partial_json);
-					printf("# # back from class : %s rest json : %s, class name : %s, position : %d \n",attribute_name ,json+i, name, i);
+					//printf("# # back from class : %s rest json : %s, class name : %s, position : %d \n",attribute_name ,json+i, name, i);
 				}
 			}
 
@@ -109,7 +109,7 @@ unsigned int write_json_class_model(char name[], char json[], int language_code,
 		case '}': {
 			closing_tag++;
 			if (opening_tag == closing_tag) {
-				printf("# end of object ! rest json : %s, class name : %s, position : %d \n", json+i, name, i);
+				//printf("# end of object ! rest json : %s, class name : %s, position : %d \n", json+i, name, i);
 
 				if (opening_square_brackets > closing_square_brackets) {
 					//find position of the end of the list of objects of this type
@@ -125,7 +125,7 @@ unsigned int write_json_class_model(char name[], char json[], int language_code,
 		case ']': {
 			closing_square_brackets++;
 			if (opening_tag == closing_tag && closing_square_brackets == opening_square_brackets) {
-				printf("# end ] rest json : %s, class name : %s, position : %d \n", json+i, name, i);
+				//printf("# end ] rest json : %s, class name : %s, position : %d \n", json+i, name, i);
 				i++;
 				goto close_class;
 			}
@@ -203,7 +203,7 @@ int get_attribute_type(char json[], int colon_pos) {
 				attr_type = TYPE_OBJECT;
 			}
 
-			printf("value : %s length : %d \n", value, value_length);
+			//printf("value : %s length : %d \n", value, value_length);
 
 			free(value);
 		}

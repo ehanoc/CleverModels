@@ -1,0 +1,21 @@
+Clever Models
+
+Small tool to generate model classes from Restful Feeds. ( JSON & XML (planned) ) .
+
+Current initial Support, Java models from JSON Feeds.
+
+Install : 
+
+git clone git@github.com:BrunoAlexandreMendesMartins/CleverModels.git
+
+cd CleverModels/Release
+
+make install
+
+Usage : 
+
+./cm -n [Name of Initial Class Model] -p [folder path to where to write the models] -l [programming language] -u [Feed URL]
+
+Others:
+
+-h [string to write to headers]. - For example: package com.somepackage.name
