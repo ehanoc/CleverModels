@@ -19,3 +19,9 @@ Usage :
 Others:
 
 -h [string to write to headers]. - For example: package com.somepackage.name
+
+Supported Language arguments
+
+-l java
+or
+-l objc
