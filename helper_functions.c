@@ -12,6 +12,28 @@
 #include <ctype.h>
 #include "helper_functions.h"
 
+void preppend_to_file(const char *t, FILE *fp)
+{
+	char* buf;
+	long len = 0;
+
+	fseek(fp,0,SEEK_END);
+	len = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
+
+	buf = (char *)malloc(len);
+	fread(buf,len,1,fp);
+
+	fseek(fp,0,SEEK_SET);
+
+	fprintf(fp, "%s",t);
+	fprintf(fp, "%s",buf);
+
+	fseek(fp,0,SEEK_END);
+
+	free(buf);
+}
+
 char* str_plural_to_singular(char str[])
 {
 //    long pos_s_char = str_pos_reverse('s', str, strlen(str), 1);

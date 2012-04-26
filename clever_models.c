@@ -27,9 +27,10 @@ unsigned int write_json_class_model(char name[], char json[], int language_code,
 
 	FILE* implementation_file = 0;
 	FILE* header_file = 0;
+	printf("writting class files ! \n");
 	create_class_files(name, path, language_code, class_headers, &implementation_file,	&header_file);
 	write_class_header(name, language_code, implementation_file, header_file);
-
+	printf("wrote class files ! \n");
 //	char* json = malloc(strlen(json) + 1);
 //	strncpy(json, json, strlen(json));
 //	json[strlen(json)] = '\0';
@@ -140,9 +141,18 @@ unsigned int write_json_class_model(char name[], char json[], int language_code,
 	close_class:
 		write_getters(implementation_file, header_file, language_code, attributes, attr_types, nr_attributes);
 		write_setters(implementation_file, header_file, language_code, attributes, attr_types, nr_attributes);
-		fprintf(implementation_file, "}");
+
+		if(OBJC == language_code)
+			fprintf(implementation_file, "@end");
+	    else
+	    	fprintf(implementation_file, "@end");
+
 		fclose(implementation_file);
 		if (NULL != header_file) {
+			if(OBJC == language_code)
+				fprintf(header_file, "@end");
+			else
+				fprintf(header_file, "@end");
 			fclose(implementation_file);
 		}
 		//free(mutable_json);

@@ -31,5 +31,9 @@ int get_language_code(char* language)
         code = CPP;
     }
     
+    if (strcmp(language, "objc") == 0) {
+		code = OBJC;
+	}
+
     return code;
 }

@@ -18,4 +18,6 @@ char find_first_character(char haystack[]);
 char* str_plural_to_singular(char str[]);
 char* escape_single_quotes(char* json);
 
+void preppend_to_file(const char *t, FILE *fp);
+
 #endif

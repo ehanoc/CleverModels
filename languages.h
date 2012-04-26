@@ -15,6 +15,7 @@ const static int JAVA     = 0;
 const static int PHP      = 1;
 const static int CSHARP   = 2;
 const static int CPP      = 3;
+const static int OBJC	  = 4;
 
 int get_language_code(char* language);
 
