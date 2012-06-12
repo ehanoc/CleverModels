@@ -16,4 +16,5 @@ SUBDIRS := \
 objc \
 . \
 java \
+cs \
 

@@ -10,6 +10,7 @@ RM := rm -rf
 -include sources.mk
 -include objc/subdir.mk
 -include java/subdir.mk
+-include cs/subdir.mk
 -include subdir.mk
 -include objects.mk
 

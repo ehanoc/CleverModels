@@ -1,8 +1,8 @@
 Clever Models
 
-Small tool to generate model classes from Restful Feeds. ( JSON & XML (planned) ) .
+Small tool to generate POJOs model classes from  Feeds. ( JSON  ) .
 
-Current initial Support, Java models from JSON Feeds.
+Current Support, Java, C# & Objective-C models from JSON Feeds.
 
 Install : 
 
@@ -24,4 +24,6 @@ Supported Language arguments
 
 -l java
 or
--l objc
+-l' objc
+or
+-l csharp

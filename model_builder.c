@@ -14,14 +14,20 @@
 #include "helper_functions.h"
 #include "java/java_model_writer.h"
 #include "objc/objc_model_writer.h"
+#include "cs/cs_model_writer.h"
 
 int write_setters(FILE* implementation_file, FILE* header_file, int language_code, char attributes[MAX_ATTRIBUTES][MAX_ATTRIBUTE_NAME_LENGTH], int attr_types[], int nr_attributes)
 {
 	int result = -1;
-	if (JAVA == language_code) {
-		result = java_write_setters(implementation_file, nr_attributes, attributes, attr_types);
-	} else if (OBJC == language_code) {
-
+	switch (language_code) {
+		case JAVA:
+			result = java_write_setters(implementation_file, nr_attributes, attributes, attr_types);
+			break;
+		case CSHARP:
+			result = cs_write_setters(implementation_file, nr_attributes, attributes, attr_types);
+			break;
+		default:
+			break;
 	}
 	return result;
 }
@@ -29,21 +35,36 @@ int write_setters(FILE* implementation_file, FILE* header_file, int language_cod
 int write_getters(FILE* implementation_file, FILE* header_file, int language_code, char attributes[MAX_ATTRIBUTES][MAX_ATTRIBUTE_NAME_LENGTH], int attr_types[], int nr_attributes)
 {
 	int result = -1;
-	if (JAVA == language_code) {
-		result = java_write_getters(implementation_file, nr_attributes, attributes, attr_types);
-	} else if (OBJC == language_code) {
 
+	switch (language_code) {
+		case JAVA:
+			result = java_write_getters(implementation_file, nr_attributes, attributes, attr_types);
+			break;
+		case CSHARP:
+			result = cs_write_getters(implementation_file, nr_attributes, attributes, attr_types);
+			break;
+		default:
+			break;
 	}
+
 	return result;
 }
 
 int write_class_header(char class_name[], int16_t language, FILE* implementation_file, FILE* header_file) {
 	int result = -1;
 
-    if (JAVA == language)
-        result = java_write_class_header(implementation_file, class_name);
-     else if (OBJC == language) {
-    	result = objc_write_class_header(implementation_file, header_file, class_name);
+    switch (language) {
+		case JAVA:
+			result = java_write_class_header(implementation_file, class_name);
+			break;
+		case OBJC:
+			result = objc_write_class_header(implementation_file, header_file, class_name);
+			break;
+		case CSHARP:
+			result = cs_write_class_header(implementation_file, class_name);
+			break;
+		default:
+			break;
 	}
 
 	return result;
@@ -54,12 +75,18 @@ int write_attribute(char attribute_name[], int16_t type, int16_t language,
 
 	int result = -1;
 
-	if (JAVA == language) {
-
-		result = java_write_attribute(implementation_file, attribute_name,
-				type);
-	} else if (OBJC == language) {
-		result = objc_write_attribute(implementation_file, header_file, attribute_name, type);
+	switch (language) {
+		case JAVA:
+			result = java_write_attribute(implementation_file, attribute_name, type);
+			break;
+		case OBJC:
+			result = objc_write_attribute(implementation_file, header_file, attribute_name, type);
+			break;
+		case CSHARP:
+			result = cs_write_attribute(implementation_file, attribute_name, type);
+			break;
+		default:
+			break;
 	}
 
 	return result;
@@ -82,18 +109,28 @@ void create_class_files(char name[], char path[], int language_code, char class_
 	strcat(header_file_path, ".");
 
 	*header = NULL;
-	if (JAVA == language_code) {
-		strcat(file_path, "java");
-	} else if(OBJC == language_code) {
-		strcat(file_path, "m");
 
-		strcat(header_file_path, "h");
+	switch (language_code) {
+		case JAVA:
+			strcat(file_path, "java");
+			break;
 
-		*header = fopen(header_file_path, "w+");
-		if(NULL == *header) {
-			perror("failed in creating header file \n");
-			exit(-1);
-		}
+		case OBJC:
+			strcat(file_path, "m");
+			strcat(header_file_path, "h");
+
+			*header = fopen(header_file_path, "w+");
+			if (NULL == *header) {
+				perror("failed in creating header file \n");
+				exit(-1);
+			}
+			break;
+
+		case CSHARP:
+			strcat(file_path, "cs");
+			break;
+		default:
+			break;
 	}
 
 	*implementation = fopen(file_path, "w+");
