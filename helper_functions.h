@@ -16,7 +16,6 @@ int str_pos_reverse (char c, char haystack[], int start_pos, int occurence);
 void str_to_lower(char str []);
 char find_first_character(char haystack[]);
 char* str_plural_to_singular(char str[]);
-char* escape_single_quotes(char* json);
 
 void preppend_to_file(const char *t, FILE *fp);
 

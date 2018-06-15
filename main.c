@@ -5,7 +5,6 @@
 //  Created by Bruno Martins on 3/20/12.
 //  Copyright (c) 2012. All rights reserved.
 //
-
 #include <stdio.h>
 #include "clever_models.h"
 #include <sys/stat.h>
@@ -46,8 +45,6 @@ int main(int argc, char * argv[]) {
 
 			if (0 == pid) {
 				execl("/usr/bin/curl", "curl", "-o", feed_string_file, optarg, NULL);
-
-				//printf(" exec return : %d \n", r);
 				return 0;
 			}
 		}
@@ -112,13 +109,9 @@ int main(int argc, char * argv[]) {
 		while ((ch = fgetc(feed_file_stream)) != EOF) {
 			json[strlen(json)] = ch;
 		}
-
-		//fclose(feed_file_stream);
 	}
 //
 	printf("json : %s \n", json);
-
-	//json = clean_spaces(json);
 
 	json[strlen(json)] = '\0';
 
@@ -129,5 +122,3 @@ int main(int argc, char * argv[]) {
 
 	return 0;
 }
-
-

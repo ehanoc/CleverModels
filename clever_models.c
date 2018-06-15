@@ -15,7 +15,6 @@
 
 unsigned int write_json_class_model(char name[], char json[], int language_code, char path[], char* class_headers, int multiple_objects)
 {
-	//printf("entering for class : %s \n", name);
 	int opening_tag = 0;
 	int closing_tag = 0;
 	int opening_square_brackets = 0;
@@ -27,13 +26,11 @@ unsigned int write_json_class_model(char name[], char json[], int language_code,
 
 	FILE* implementation_file = 0;
 	FILE* header_file = 0;
+
 	printf("writting class files ! language_code : %d \n", language_code);
 	create_class_files(name, path, language_code, class_headers, &implementation_file,	&header_file);
 	write_class_header(name, language_code, implementation_file, header_file);
 	printf("wrote class files ! \n");
-//	char* json = malloc(strlen(json) + 1);
-//	strncpy(json, json, strlen(json));
-//	json[strlen(json)] = '\0';
 
 	int i;
 	for (i = 0; i < strlen(json); i++) {
@@ -44,7 +41,6 @@ unsigned int write_json_class_model(char name[], char json[], int language_code,
 			break;
 
 		case ':': {
-
 			//checking if : character is part of a string
 			//if not, meaning its part of key:value notation, we proceed
 			char next_char = (char)json[i+1];
@@ -57,8 +53,6 @@ unsigned int write_json_class_model(char name[], char json[], int language_code,
 			int key_second_quote = str_pos_reverse('"', json, i, 1);
 			int key_first_quote = str_pos_reverse('"', json, i, 2);
 
-			//printf("second_quote : %d, first_quote : %d \n", pos_attr_name_second_quote, pos_attr_name_first_quote);
-
 			//#2 compute size of key/attribute
 			int length_attr_name = (key_second_quote - key_first_quote) - 1;
 
@@ -67,8 +61,6 @@ unsigned int write_json_class_model(char name[], char json[], int language_code,
 			//build attribute string & terminate string
 			strncpy(attribute_name, json + key_first_quote + 1, length_attr_name);
 			attribute_name[length_attr_name] = '\0';
-
-			//printf("Class : %s -> Attribute name : %s, length : %d \n", name, attribute_name, length_attr_name);
 
 			int attr_type = get_attribute_type(json, i);
 			if (0 == already_wrote_attribute(attribute_name, attributes, nr_attributes) && strcmp(":", attribute_name) != 0) {
@@ -83,20 +75,20 @@ unsigned int write_json_class_model(char name[], char json[], int language_code,
 
 				write_attribute(attribute_name, attr_type, language_code,implementation_file, header_file);
 
+                // Do we need another class to represent the current attribute?
 				if (TYPE_OBJECT == attr_type || TYPE_LIST == attr_type) {
 					int multiple = 0;
 					if (TYPE_LIST == attr_type) {
 						multiple = 1;
 					}
 
+                    // extract the json substring relevant to that type
 					char* partial_json = malloc(strlen(json+i+1));
 					strncpy(partial_json, json+i+1, strlen(json+i+1));
 
 					i += write_json_class_model(attribute_name, partial_json, language_code, path, class_headers, multiple);
 
-
 					free(partial_json);
-					//printf("# # back from class : %s rest json : %s, class name : %s, position : %d \n",attribute_name ,json+i, name, i);
 				}
 			}
 
@@ -138,6 +130,8 @@ unsigned int write_json_class_model(char name[], char json[], int language_code,
 		}
 	}
 
+    // Finish up!
+    // getters, setts, close class
 	close_class:
 		write_getters(implementation_file, header_file, language_code, attributes, attr_types, nr_attributes);
 		write_setters(implementation_file, header_file, language_code, attributes, attr_types, nr_attributes);
@@ -155,7 +149,6 @@ unsigned int write_json_class_model(char name[], char json[], int language_code,
 				fprintf(header_file, "}");
 			fclose(implementation_file);
 		}
-		//free(mutable_json);
 
 	return i;
 }
@@ -213,8 +206,6 @@ int get_attribute_type(char json[], int colon_pos) {
 				attr_type = TYPE_OBJECT;
 			}
 
-			//printf("value : %s length : %d \n", value, value_length);
-
 			free(value);
 		}
 	}
@@ -233,6 +224,12 @@ int already_wrote_attribute(char* attribute_name, char attributes[MAX_ATTRIBUTES
 	return 0;
 }
 
+/**
+* Returns the position of where does the next Array object closes
+* Ignores nested arrays.
+*
+* When open brackets == closed brackets it stops
+*/
 int find_pos_end_object_array(char *json)
 {
 	int opening_square_brackets = 1;
