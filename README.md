@@ -1,16 +1,16 @@
-#Clever Models
+# Clever Models
 
 Small tool to generate POJOs model classes from  Feeds. ( JSON  ) .
 
 Current Support, Java, C# & Objective-C models from JSON Feeds.
 
-###Install : 
+### Install : 
 
 - ``` git clone git@github.com:BrunoAlexandreMendesMartins/CleverModels.git```
 - ```$ cd CleverModels/Release```
 - ```$ make ```
 
-###Usage : 
+### Usage : 
 
 - ``` ./cm -n [Name of Initial Class Model] -p [folder path to where to write the models] -l [programming language] -u [Feed URL] ```
 
